@@ -1,5 +1,6 @@
 const express = require('express');
 let books = require("./booksdb.js");
+const axios = require('axios');
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
@@ -22,7 +23,7 @@ public_users.post("/register", (req,res) => {
     if (username && password) {
       if (!doesExist(username)) { 
         users.push({"username":username,"password":password});
-        return res.status(200).json({message: "User successfully registred. Now you can login"});
+        return res.status(200).json({message: "User registered successfully. Now you can login"});
       } else {
         return res.status(404).json({message: "User already exists!"});    
       }
@@ -37,6 +38,19 @@ public_users.get('/',function (req, res) {
       });
       fetchBooks.then(() => console.log("Books fetched successfully"));
 });
+
+/*
+public_users.get('/', async (req, res) => {
+    try {
+      const response = await axios.get('https://enter-url-here'); // Replace with your API endpoint
+      const books = response.data;
+      res.send(JSON.stringify({books}, null, 4)); // Send the fetched data as JSON response
+      console.log("Books fetched successfully");
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  });
+  */
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
@@ -66,7 +80,6 @@ fetchDetails.then(() => console.log("Details fetched successfully"));
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
 
   const fetchBooks = new Promise((resolve, reject) => {
     const title = req.params.title;

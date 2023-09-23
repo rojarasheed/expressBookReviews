@@ -68,7 +68,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     if (!reviewAdded) {
         bookReviews[currentUser] = bookReview;
     }
-    res.send("The review has been added/updated successfully.");
+    res.send("The review for the book with isbn "+isbn+" has been added/updated successfully.");
 
 });
 
@@ -80,7 +80,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
         if(selectedBook['reviews'][currentUser]){
             delete selectedBook['reviews'][currentUser]
         }
-        res.send("Review deleted successfully");
+        res.send("Review for the book with isbn "+isbn+" deleted");
     }
     else{
         res.send("Book with this ISBN cannot be found");
